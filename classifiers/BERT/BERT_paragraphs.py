@@ -175,6 +175,7 @@ model = CustomModel(model_name, num_extra_dims=num_extra_dims, num_labels=num_la
 # UTILS
 
 
+
 def predict(articles, features, model=model):
     with torch.no_grad():
         model.eval()

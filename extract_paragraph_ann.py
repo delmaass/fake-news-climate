@@ -1,5 +1,5 @@
 import json
-from paragraph_ann import generate_paragraphs_ann, visualize
+from paragraph_ann import generate_paragraphs_ann
 from remove_useless import remove_useless, fusion
 from selenium import webdriver
 
