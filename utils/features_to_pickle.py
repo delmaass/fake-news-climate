@@ -17,8 +17,8 @@ Language.factory("my_readability", func=get_readability)
 nlp.add_pipe("my_readability", last=True)
 SAVE_PATH = 'feature_plots/'
 
-labels = np.array(pickle.load(open("labels.p", "rb")), dtype=object)
-docs = np.array(pickle.load(open("docs.p", "rb")), dtype=object)
+labels = np.array(pickle.load(open("labels_par.p", "rb")), dtype=object)
+docs = np.array(pickle.load(open("paragraphs.p", "rb")), dtype=object)
 
 dataset = np.vstack((labels, docs)).T
 
@@ -130,7 +130,7 @@ def save_features_bis(feature_list, data):
     features = features.T
     print(np.shape(features))
     print(features)
-    pickle.dump(features, open("features.p", "wb"))
+    pickle.dump(features, open("features_par.p", "wb"))
     
 def save_features(feature_list, data):
     features = [apply_feature(feature, data) for feature in feature_list]

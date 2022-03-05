@@ -9,6 +9,7 @@ fake_path = 'txt-labelled-articles/FAKE/'
 def add_to_lists(path):
     articles = []
     labels = []
+    ids = []
     for _, filename in enumerate(os.listdir(path)):
         if filename.startswith('.'):
                 continue
@@ -18,19 +19,21 @@ def add_to_lists(path):
             article = json_file['content']
             articles.append(article)
             labels.append(label)
-    return articles, labels
+            ids.append(filename[:-5])
+    return ids, articles, labels
         
 
 if __name__== '__main__':
 
-    true_articles, true_labels = add_to_lists(true_path)
-    biased_articles, biased_labels = add_to_lists(biased_path)
-    fake_articles, fake_labels = add_to_lists(fake_path)
+    true_ids, true_articles, true_labels = add_to_lists(true_path)
+    biased_ids, biased_articles, biased_labels = add_to_lists(biased_path)
+    fake_ids, fake_articles, fake_labels = add_to_lists(fake_path)
     
     articles = true_articles + biased_articles + fake_articles
     labels = true_labels + biased_labels + fake_labels
+    ids = true_ids + biased_ids + fake_ids
 
-    df = pd.DataFrame(zip(labels, articles), columns=['label', 'article'])
+    df = pd.DataFrame(zip(ids, labels, articles), columns=['article id', 'label', 'article'])
     df = df.sample(frac=1).reset_index(drop=True)    
     df.to_csv('text_dataset.csv')
     print(df.shape)
