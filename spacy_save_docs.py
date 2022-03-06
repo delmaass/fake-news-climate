@@ -7,8 +7,8 @@ from spacy_readability import Readability
 from spacy.language import Language
 
 
-PATH = 'paragraphs_dataset.csv'
-fields = ['article id','label', 'paragraph']
+PATH = 'text_dataset.csv'
+fields = ['article id','label', 'article']
 dataset = np.array(pd.read_csv(PATH, usecols=fields), dtype=str)
 
 
@@ -17,8 +17,8 @@ ids_test = np.array(pickle.load(open("ids_test.p", "rb")), dtype=object)
 ids_val = np.array(pickle.load(open("ids_val.p", "rb")), dtype=object)
 
 
+
 nlp = spacy.load("fr_dep_news_trf")
-#nlp = spacy.load("fr_core_news_md")
 
 def get_readability(nlp, name):
     read = Readability()
@@ -58,11 +58,11 @@ for id, doc, label in zip(ids, docs, labels):
     
 
 
-pickle.dump(train_labels, open("labels_train_par.p", "wb"))
-pickle.dump(train_docs, open("docs_train_par.p", "wb"))
+pickle.dump(train_labels, open("labels_train.p", "wb"))
+pickle.dump(train_docs, open("docs_train.p", "wb"))
 
-pickle.dump(test_labels, open("labels_test_par.p", "wb"))
-pickle.dump(test_docs, open("docs_test_par.p", "wb"))
+pickle.dump(test_labels, open("labels_test.p", "wb"))
+pickle.dump(test_docs, open("docs_test.p", "wb"))
 
-pickle.dump(val_labels, open("labels_val_par.p", "wb"))
-pickle.dump(val_docs, open("docs_val_par.p", "wb"))
+pickle.dump(val_labels, open("labels_val.p", "wb"))
+pickle.dump(val_docs, open("docs_val.p", "wb"))

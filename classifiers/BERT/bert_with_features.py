@@ -31,6 +31,21 @@ labels_val = np.array(pickle.load(open("labels_val_par.p", "rb")), dtype=int)-1
 num_extra_dims = np.shape(features_train)[1]
 num_labels = len(set(labels_train))
 
+"""
+min_occurences = np.min(np.bincount(labels_train))
+count_0 = np.count_nonzero(labels_train==0)
+count_2 = np.count_nonzero(labels_train==2)
+delete_0 = np.argwhere[labels_train == 0][:count_0-min_occurences]
+delete_2 = np.argwhere[labels_train == 0][:count_2-min_occurences]
+docs_train = np.delete(docs_train, delete_0 + delete_2, 0)
+labels_train = np.delete(labels_train, delete_0 + delete_2, 0)
+features_train = np.delete(features_train, delete_0 + delete_2, 0)
+
+"""
+
+print(np.shape(docs_train))
+print(np.shape(features_train))
+print(np.shape(labels_train))
 
 
 
@@ -100,15 +115,6 @@ train_dataset = TensorDataset(
     attention_mask,
     features_train,
     labels_train)
-    
-
-input_ids, attention_mask, features_validation, labels_validation = preprocess(articles_test, features_test, labels_test)
-validation_dataset = TensorDataset(
-    input_ids,
-    attention_mask,
-    features_validation,
-    labels_validation)
-
 
 
 batch_size = 32
@@ -118,10 +124,6 @@ train_dataloader = DataLoader(
             sampler = RandomSampler(train_dataset),
             batch_size = batch_size)
 
-validation_dataloader = DataLoader(
-            validation_dataset,
-            sampler = SequentialSampler(validation_dataset),
-            batch_size = batch_size)
 
 
 
@@ -209,7 +211,7 @@ training_stats = []
 # Measure the total training time for the whole run.
 total_t0 = time.time()
 
-epochs = 8
+epochs = 5
 
 # Total number of training steps is [number of batches] x [number of epochs]
 # (Note that this is not the same as the number of training samples)

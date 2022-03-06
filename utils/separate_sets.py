@@ -13,7 +13,7 @@ def get_ids(path):
     for _, filename in enumerate(os.listdir(path)):
         if filename.startswith('.'):
             continue
-        ids_list.append(filename[:-5])
+        ids_list.append(int(filename[:-5]))
     split_border_1 = int(len(ids_list)*0.7)
     split_border_2 = int(len(ids_list)*0.85)
     random.shuffle(ids_list)
