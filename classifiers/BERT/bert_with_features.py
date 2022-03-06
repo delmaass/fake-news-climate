@@ -97,7 +97,7 @@ def preprocess(raw_articles, features = None, labels=None):
         return encoded_batch['input_ids'], encoded_batch['attention_mask']
         
 
-articles_train, articles_test, articles_validation = preprocess_spacy(docs_train), preprocess_spacy(docs_test), preprocess_spacy(docs_val)
+articles_train, articles_test = preprocess_spacy(docs_train), preprocess_spacy(docs_test)
 
 print(TOKENIZER.convert_ids_to_tokens(preprocess(articles_train, features = features_train, labels=labels_train)[0][0]))
 
