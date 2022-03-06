@@ -1,31 +1,18 @@
-import matplotlib.pyplot as plt
 import numpy as np
-import os, json
 import pickle
-import spacy
-from spacy_readability import Readability
-from spacy.language import Language
 
+train_labels = np.array(pickle.load(open("labels_train_par.p", "rb")), dtype=object)
+train_docs = np.array(pickle.load(open("docs_train_par.p", "rb")), dtype=object)
+train_dataset = np.vstack((train_labels, train_docs)).T
 
-nlp = spacy.load("fr_dep_news_trf")
+test_labels = np.array(pickle.load(open("labels_test_par.p", "rb")), dtype=object)
+test_docs = np.array(pickle.load(open("docs_test_par.p", "rb")), dtype=object)
+test_dataset = np.vstack((test_labels, test_docs)).T
 
-def get_readability(nlp, name):
-    read = Readability()
-    return read
+val_labels = np.array(pickle.load(open("labels_val_par.p", "rb")), dtype=object)
+val_docs = np.array(pickle.load(open("docs_val_par.p", "rb")), dtype=object)
+val_dataset = np.vstack((val_labels, val_docs)).T
 
-Language.factory("my_readability", func=get_readability)
-nlp.add_pipe("my_readability", last=True)
-SAVE_PATH = 'feature_plots/'
-
-labels = np.array(pickle.load(open("labels_par.p", "rb")), dtype=object)
-docs = np.array(pickle.load(open("paragraphs.p", "rb")), dtype=object)
-
-dataset = np.vstack((labels, docs)).T
-
-labels_core = np.array(pickle.load(open("labels_core.p", "rb")), dtype=object)
-docs_core = np.array(pickle.load(open("docs_core.p", "rb")), dtype=object)
-
-dataset_core = np.vstack((labels_core, docs_core)).T
 
 def get_punct_ratio(doc) -> float:
     n_token = len(doc)
@@ -119,18 +106,13 @@ def apply_feature(feature, data):
         values.append(feature(text))
     return np.array(values)
 
-def save_features_bis(feature_list, data):
+def save_features_bis(feature_list, data, name):
     features = np.empty((np.shape(data)[0]))
     for feature in feature_list:
         values = apply_feature(feature, data)
-        print(np.shape(features.shape))
-        print(np.shape(values))
         features = np.vstack((features, values))
-        #features = np.concatenate((features, values.T), axis=1)
     features = features.T
-    print(np.shape(features))
-    print(features)
-    pickle.dump(features, open("features_par.p", "wb"))
+    pickle.dump(features, open(name, "wb"))
     
 def save_features(feature_list, data):
     features = [apply_feature(feature, data) for feature in feature_list]
@@ -142,4 +124,6 @@ def save_features(feature_list, data):
 
 if __name__=='__main__':
     feature_list = [get_adv_ratio, get_quoations, get_fin_ratio, get_expr, get_first_person]
-    save_features_bis(feature_list, dataset)
+    save_features_bis(feature_list, train_dataset, "features_train_par")
+    save_features_bis(feature_list, test_dataset, "features_test_par")
+    save_features_bis(feature_list, val_dataset, "features_val_par")

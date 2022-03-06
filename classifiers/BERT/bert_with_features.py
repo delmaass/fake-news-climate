@@ -16,17 +16,17 @@ from torch.utils.data import TensorDataset, random_split, DataLoader, RandomSamp
 
 # LOAD TRAIN, TEST AND VALIDATION SETS
 
-docs_train = np.array(pickle.load(open("docs_train.p", "rb")), dtype=object)
-docs_test = np.array(pickle.load(open("docs_test.p", "rb")), dtype=object)
-docs_val = np.array(pickle.load(open("docs_val.p", "rb")), dtype=object)
+docs_train = np.array(pickle.load(open("docs_train_par.p", "rb")), dtype=object)
+docs_test = np.array(pickle.load(open("docs_test_par.p", "rb")), dtype=object)
+docs_val = np.array(pickle.load(open("docs_val_par.p", "rb")), dtype=object)
 
-features_train = np.array(pickle.load(open("features_train.p", "rb")), dtype=np.float32)
-features_test = np.array(pickle.load(open("features_test.p", "rb")), dtype=np.float32)
-features_val = np.array(pickle.load(open("features_val.p", "rb")), dtype=np.float32)
+features_train = np.array(pickle.load(open("features_train_par.p", "rb")), dtype=np.float32)
+features_test = np.array(pickle.load(open("features_test_par.p", "rb")), dtype=np.float32)
+features_val = np.array(pickle.load(open("features_val_par.p", "rb")), dtype=np.float32)
 
-labels_train = np.array(pickle.load(open("labels_train.p", "rb")), dtype=int)-1
-labels_test = np.array(pickle.load(open("labels_test.p", "rb")), dtype=int)-1
-labels_val = np.array(pickle.load(open("labels_val.p", "rb")), dtype=int)-1
+labels_train = np.array(pickle.load(open("labels_train_par.p", "rb")), dtype=int)-1
+labels_test = np.array(pickle.load(open("labels_test_par.p", "rb")), dtype=int)-1
+labels_val = np.array(pickle.load(open("labels_val_par.p", "rb")), dtype=int)-1
 
 num_extra_dims = np.shape(features_train)[1]
 num_labels = len(set(labels_train))
@@ -201,7 +201,7 @@ optimizer = AdamW(model.parameters(),
                   eps = 1e-8 # Adam Epsilon  - Default is 1e-8.
                 )
 
-SAVE_PATH = "customed_camembert_model#2.model"
+SAVE_PATH = "bert_features_par#1.model"
 
 # Training loop
 training_stats = []

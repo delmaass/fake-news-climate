@@ -1,5 +1,5 @@
 import os
-import json
+import random
 import pickle
 
 
@@ -16,6 +16,7 @@ def get_ids(path):
         ids_list.append(filename[:-5])
     split_border_1 = int(len(ids_list)*0.7)
     split_border_2 = int(len(ids_list)*0.85)
+    random.shuffle(ids_list)
     ids_train, ids_test, ids_validation = ids_list[:split_border_1], ids_list[split_border_1:split_border_2], ids_list[split_border_2:]
     return ids_train, ids_test, ids_validation
 

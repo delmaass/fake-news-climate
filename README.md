@@ -55,7 +55,7 @@
         - paragraphs.py
     
 
-**First type of Json file for labelled articles**
+**First type of Json file for labelled articles (folder “json-annotations”) : Annotations and paragraph structure are kept**
 
 ```jsx
 {
@@ -89,7 +89,7 @@
 }
 ```
 
-**Second type of Json file for labelled articles**
+**Second type of Json file for labelled articles (folder “txt-labelled-articles”) : Annotations and paragraph structure are not kept**
 
 ```jsx
 {
@@ -97,11 +97,9 @@
 "date": "2013",
 "title":"",
 "author":"",
-"content":""
+"content":"" // Raw content
 }
 ```
-
-### 
 
 ### Preprocessing with Spacy
 
@@ -109,7 +107,7 @@
 > 
 - spacy_save_docs.py
     
-    generates a pickle file containing the Spacy pre-processing from a csv file containing the items and their labels
+    Generates a pickle file containing the Spacy pre-processing from a csv file containing the items and their labels. Also separates the articles between training, testing and validation.
     
 
 ### Calculation of features
@@ -128,13 +126,23 @@
 > Data is stored in csv files and pickles. There are three types of data : whole articles, paragraphs and sentences. Thus the train dataset is not the same for each type of data. However test test and validation sets remain made up of whole articles as the test is done using the following prediction rule : if there is at least one fake paragraph or sentence then the article is predicted as fake too, if there is at least one biased paragraph or sentence and no fake one then the article is predicted as biased. Else the prediction is true.
 > 
 
-- articles_to_csv
-    - creates a csv file containing all labelled items (found in the txt-labelled-articles folder) and their labels
+- articles_to_csv.py
+    - Creates a csv file containing all labelled items (found in the txt-labelled-articles folder) and their labels. This step comes before the preprocessing and calculation of features.
     
-- create_sets.py
-    
-    creates 3 pickle files (train, test, validation) for items, features and labels
-    
+- paragraphs_dataset.py
+    - Creates a dataset of paragraphs. The csv is named “paragraphs_dataset and contains 35257 paragraphs where each paragraph has the label of its parent article. This step comes before the preprocessing and calculation of features.
+- separate_sets.py
+    - Calculates three id lists "ids_train", "ids_test" and "ids_val" defining the train, test and validation sets. The three datasets have the same label proportion. 70% of the items are in the training set, 15% in the test set and 15% in the validation set.
+
+### Dataset creation pipeline (summary of the previous steps)
+
+> To summarise, in order to obtain a train, test and validation set for articles, features and labels, one must go through the following steps:
+> 
+- Extraction of the tagged articles from Tagtog (***extract_paragraphs_ann.py***)
+- Creation of a first csv grouping the articles or paragraphs and their labels and id (***articles_to_csv.py*** or ***paragraphs_dataset.py***)
+- Separates ids between training, testing and validation (***separate*_sets.py**)
+- Preprocessing with the Spacy pipeline (***spacy_save_docs.py***)
+- Calculation of features (***features_to_pickle.py***)
 
 ### Classifiers
 
