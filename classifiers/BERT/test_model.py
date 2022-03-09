@@ -6,11 +6,11 @@ import pickle
 import numpy as np
 
 
-PATH = "bert_features_par#1.model"
+PATH = "customed_camembert_model#2.model"
 
-docs_test = np.array(pickle.load(open("docs_test_par.p", "rb")), dtype=object)
-features_test = np.array(pickle.load(open("features_test_par.p", "rb")), dtype=np.float32)
-labels_test = np.array(pickle.load(open("labels_test_par.p", "rb")), dtype=int)-1
+docs_test = np.array(pickle.load(open("docs_test.p", "rb")), dtype=object)
+features_test = np.array(pickle.load(open("features_test.p", "rb")), dtype=np.float32)
+labels_test = np.array(pickle.load(open("labels_test.p", "rb")), dtype=int)-1
 
 num_extra_dims = np.shape(features_test)[1]
 num_labels = len(set(labels_test))

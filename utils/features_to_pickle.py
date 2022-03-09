@@ -1,16 +1,16 @@
 import numpy as np
 import pickle
 
-train_labels = np.array(pickle.load(open("labels_train_par.p", "rb")), dtype=object)
-train_docs = np.array(pickle.load(open("docs_train_par.p", "rb")), dtype=object)
+train_labels = np.array(pickle.load(open("labels_train.p", "rb")), dtype=object)
+train_docs = np.array(pickle.load(open("docs_train.p", "rb")), dtype=object)
 train_dataset = np.vstack((train_labels, train_docs)).T
 
-test_labels = np.array(pickle.load(open("labels_test_par.p", "rb")), dtype=object)
-test_docs = np.array(pickle.load(open("docs_test_par.p", "rb")), dtype=object)
+test_labels = np.array(pickle.load(open("labels_test.p", "rb")), dtype=object)
+test_docs = np.array(pickle.load(open("docs_test.p", "rb")), dtype=object)
 test_dataset = np.vstack((test_labels, test_docs)).T
 
-val_labels = np.array(pickle.load(open("labels_val_par.p", "rb")), dtype=object)
-val_docs = np.array(pickle.load(open("docs_val_par.p", "rb")), dtype=object)
+val_labels = np.array(pickle.load(open("labels_val.p", "rb")), dtype=object)
+val_docs = np.array(pickle.load(open("docs_val.p", "rb")), dtype=object)
 val_dataset = np.vstack((val_labels, val_docs)).T
 
 
@@ -124,6 +124,6 @@ def save_features(feature_list, data):
 
 if __name__=='__main__':
     feature_list = [get_adv_ratio, get_quoations, get_fin_ratio, get_expr, get_first_person]
-    save_features_bis(feature_list, train_dataset, "features_train_par.p")
-    save_features_bis(feature_list, test_dataset, "features_test_par.p")
-    save_features_bis(feature_list, val_dataset, "features_val_par.p")
+    save_features_bis(feature_list, train_dataset, "features_train.p")
+    save_features_bis(feature_list, test_dataset, "features_test.p")
+    save_features_bis(feature_list, val_dataset, "features_val.p")

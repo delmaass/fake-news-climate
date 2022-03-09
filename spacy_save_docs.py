@@ -12,9 +12,9 @@ fields = ['article id','label', 'article']
 dataset = np.array(pd.read_csv(PATH, usecols=fields), dtype=str)
 
 
-ids_train = np.array(pickle.load(open("ids_train.p", "rb")), dtype=object)
-ids_test = np.array(pickle.load(open("ids_test.p", "rb")), dtype=object)
-ids_val = np.array(pickle.load(open("ids_val.p", "rb")), dtype=object)
+ids_train = np.array(pickle.load(open("ids_train.p", "rb")), dtype=int)
+ids_test = np.array(pickle.load(open("ids_test.p", "rb")), dtype=int)
+ids_val = np.array(pickle.load(open("ids_val.p", "rb")), dtype=int)
 
 
 

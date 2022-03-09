@@ -28,6 +28,15 @@ labels_test = np.array(pickle.load(open("labels_test.p", "rb")), dtype=int)-1
 num_extra_dims = np.shape(features_train)[1]
 num_labels = len(set(labels_train))
 
+
+# debug
+docs_train = docs_train[np.where(labels_train==0)]
+features_train = features_train[np.where(labels_train==0)]
+labels_train = labels_train[np.where(labels_train==0)]
+labels_train[0] = 2
+labels_train[1] = 1
+
+
 """
 min_occurences = np.min(np.bincount(labels_train))
 count_0 = np.count_nonzero(labels_train==0)
@@ -208,7 +217,7 @@ training_stats = []
 # Measure the total training time for the whole run.
 total_t0 = time.time()
 
-epochs = 5
+epochs = 1
 
 # Total number of training steps is [number of batches] x [number of epochs]
 # (Note that this is not the same as the number of training samples)
@@ -283,6 +292,12 @@ for epoch in range(0, epochs):
                        attention_mask=attention_mask)
         
         loss = criterion(logits, label)
+        print(logits)
+        is_inf = torch.isinf(logits)[:, 0]
+        if len(torch.nonzero(is_inf)):
+            print(torch.index_select(batch[3], 0, torch.squeeze(torch.nonzero(is_inf))))
+            print(TOKENIZER.convert_ids_to_tokens(torch.squeeze(torch.index_select(batch[0], 0, torch.squeeze(torch.nonzero(is_inf))))[0]))
+
 
 
         # Accumulate the training loss over all of the batches so that we can
